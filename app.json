@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "baskoropandugunarso-Apptest",
+    "slug": "baskoropandugunarso-Apptest",
+    "version": "1.0.0",
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  },
+  "name": "baskoropandugunarso-Apptest"
+}
