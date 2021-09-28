@@ -1,0 +1,7 @@
+const actionTypes = {
+  SET_CONTACTS : 'SET/CONTACTS',
+  SET_CONTACTDETAILS : 'SET/CONTACTDETAILS',
+}
+
+export const SET_CONTACTS = actionTypes.SET_CONTACTS
+export const SET_CONTACTDETAILS = actionTypes.SET_CONTACTDETAILS

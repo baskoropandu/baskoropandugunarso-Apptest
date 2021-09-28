@@ -1,13 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native' 
+import { Provider } from 'react-redux';
+import Home from './src/pages/Home';
+import store from './src/store/store';
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
+import ContactDetails from './src/pages/ContactDetails';
+
+
+const Stack = createNativeStackNavigator()
 
 export default function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Provider store={store}>
+        <Stack.Navigator initialRouteName="Home">
+          <Stack.Screen name="Home" component={Home}/>
+          <Stack.Screen name="Details" component={ContactDetails}/>
+        </Stack.Navigator>
+      </Provider>
+    </NavigationContainer>
   );
 }
 
