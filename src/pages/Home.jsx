@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View, TextInput, Image, Text, Dimensions, ScrollView} from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Dimensions, ScrollView} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from '../store/actions';
 import ContactCard from '../components/ContactCard';

@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableOpacity, View, TextInput, Image, Text, Dimensions, ScrollView} from 'react-native';
-import { useDispatch, } from 'react-redux';
+import { StyleSheet, TouchableOpacity, View, TextInput, Image, Text, Dimensions, ScrollView, ToastAndroid} from 'react-native';
+import { useDispatch } from 'react-redux';
 import { createContact, fetchContactDetails, fetchContacts, updateContact,} from '../store/actions';
 import isURL from '../helpers/checkURL';
 import { useNavigation } from '@react-navigation/native';
@@ -27,9 +27,13 @@ export default function ContactForm({route, navigation}) {
         dispatch(updateContact(newContact, id))
           .then(response => response.json())
           .then(response => {
-            console.log(response);
-            dispatch(fetchContacts())
-            navigation.navigate('Home')
+            if(!response.error){
+              ToastAndroid.show(response.message, ToastAndroid.SHORT)
+              dispatch(fetchContacts())
+              navigation.navigate('Home')
+            }else {
+              ToastAndroid.show(response.message.replace(/[^a-zA-Z0-9 ]/g, ""), ToastAndroid.SHORT)
+            }
           })
           .catch(err => {
             console.log(err,'ERROR');
@@ -37,13 +41,13 @@ export default function ContactForm({route, navigation}) {
       } else {
         dispatch(createContact(newContact))
           .then(response => response.json())
-          .then(result => {
-            console.log(result);
+          .then(response => {
+            ToastAndroid.show(response.message, ToastAndroid.SHORT)
             dispatch(fetchContacts())
             navigation.navigate('Home')
           })
           .catch(err => {
-            console.log(err,'ERROR');
+            ToastAndroid.show(err.message.replace(/[^a-zA-Z0-9 ]/g, ""), ToastAndroid.SHORT)
           })
       }
       
@@ -57,25 +61,33 @@ export default function ContactForm({route, navigation}) {
         dispatch(updateContact(newContact, id))
           .then(response => response.json())
           .then(response => {
-            console.log(response);
-            navigation.navigate('Home')
+            if(!response.error){
+              ToastAndroid.show(response.message, ToastAndroid.SHORT)
+              navigation.navigate('Home')
+            }else {
+              ToastAndroid.show(response.message.replace(/[^a-zA-Z0-9 ]/g, ""), ToastAndroid.SHORT)
+            }
           })
           .catch(err => {
-            console.log(err,'ERROR');
+            ToastAndroid.show(err.message.replace(/[^a-zA-Z0-9 ]/g, ""), ToastAndroid.SHORT)
           })
       } else {
         dispatch(createContact(newContact))
           .then(response => response.json())
-          .then(result => {
-            console.log(result);
-            navigation.navigate('Home')
+          .then(response => {
+            if(!response.error) {
+              ToastAndroid.show(response.message, ToastAndroid.SHORT)
+              navigation.navigate('Home')
+            } else {
+              ToastAndroid.show(response.message.replace(/[^a-zA-Z0-9 ]/g, ""), ToastAndroid.SHORT)
+            }
           })
           .catch(err => {
-            console.log(err,'ERROR');
+            ToastAndroid.show(err.message.replace(/[^a-zA-Z0-9 ]/g, ""), ToastAndroid.SHORT)
           })
       }
     } else{
-      console.log('photo must be in url format');
+      ToastAndroid.show('photo must be in url format', ToastAndroid.SHORT)
     }
   }
 

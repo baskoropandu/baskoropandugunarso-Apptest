@@ -1,17 +1,9 @@
-import { SET_CONTACTS, SET_CONTACT, SET_CONTACTDETAILS } from "./actionTypes"
+import { SET_CONTACTS } from "./actionTypes"
 const baseUrl = `https://simple-contact-crud.herokuapp.com`
 
 export function setContacts(params) {
   const action = {
     type: SET_CONTACTS,
-    payload: params
-  }
-  return action
-}
-
-export function setContact(params) {
-  const action = {
-    type: SET_CONTACTDETAILS,
     payload: params
   }
   return action
@@ -48,22 +40,10 @@ export function createContact(data) {
 
 export function fetchContactDetails(id) {
   return () => fetch(`${baseUrl}/contact/${id}`)
-  
 }
 
 export function deleteContact(id) {
   return () => fetch(`${baseUrl}/contact/${id}`, {method: "DELETE"})
-  // return async function (dispatch, getState) {
-  //   fetch(`${baseUrl}/contact/${id}`, {method: "DELETE"})
-  //     .then(response => response.json())
-  //     .then((response) => {
-  //       console.log(response);
-  //       dispatch(fetchContacts())
-  //     })
-  //     .catch(err => {
-  //       console.log(err);
-  //     })
-  // }
 }
 
 export function updateContact(data, id) {

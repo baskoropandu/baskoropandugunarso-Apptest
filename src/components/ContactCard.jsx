@@ -1,6 +1,6 @@
 import { useNavigation } from '@react-navigation/native';
 import React from 'react';
-import { StyleSheet, TouchableOpacity, View, TextInput, Image, Text, Dimensions, ScrollView} from 'react-native';
+import { StyleSheet, TouchableOpacity, View, Image, Text, Dimensions, Alert, ToastAndroid} from 'react-native';
 import isURL from '../helpers/checkURL';
 import { Feather, MaterialIcons } from '@expo/vector-icons';
 import { useDispatch } from 'react-redux';
@@ -18,11 +18,11 @@ export default function ContactCard({contact}) {
     dispatch(deleteContact(id))
     .then(response => response.json())
     .then(result=> {
-      if(!result.error) {
-        console.log(result);
+      if(!result.error && result.message !== 'contact unavailable') {
+        ToastAndroid.show(result.message,ToastAndroid.SHORT)
         dispatch(fetchContacts())
       }else {
-        console.log(result.error);
+        ToastAndroid.show(result.message, ToastAndroid.SHORT)
       }
     })
   }
@@ -62,7 +62,20 @@ export default function ContactCard({contact}) {
             <Feather name="edit" size={24} color="#F7F6F2" />
           </TouchableOpacity>
           <TouchableOpacity
-            onPress={handleDelete}
+            onPress={()=> {
+              Alert.alert(`Are You Sure?`, `do you really want to delete ${contact.firstName} ${contact.lastName} from your contact?`,
+                [
+                  {
+                    text: 'Cancel',
+                    onPress: ()=>navigation.navigate('Home')
+                  },
+                  {
+                    text: 'Delete',
+                    onPress: handleDelete
+                  }
+                ]
+              )
+            }}
           >
             <MaterialIcons name="delete-outline" size={24} color="#F7F6F2" />
           </TouchableOpacity>
