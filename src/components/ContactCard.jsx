@@ -2,11 +2,32 @@ import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, TextInput, Image, Text, Dimensions, ScrollView} from 'react-native';
 import isURL from '../helpers/checkURL';
+import { Feather, MaterialIcons } from '@expo/vector-icons';
+import { useDispatch } from 'react-redux';
+import { deleteContact, fetchContacts } from '../store/actions';
+
 export default function ContactCard({contact}) {
   const id = {id: contact.id}
   const navigation = useNavigation()
+  const dispatch = useDispatch()
+
+  function handleEdit() {
+    navigation.navigate('EditContact', id)
+  }
+  function handleDelete() {
+    dispatch(deleteContact(id))
+    .then(response => response.json())
+    .then(result=> {
+      if(!result.error) {
+        console.log(result);
+        dispatch(fetchContacts())
+      }else {
+        console.log(result.error);
+      }
+    })
+  }
   return(
-    <TouchableOpacity
+    <View
       onPress={()=> navigation.navigate('Details', id)}
       style={styles.contactCard}
     >
@@ -27,10 +48,27 @@ export default function ContactCard({contact}) {
       )}
       <View style={styles.innerContainer}>
         <Text style={styles.name}>
-        {`${contact.firstName} ${contact.lastName}`}
+        {`${contact.firstName}\n${contact.lastName}`}
         </Text>
+        <Text style={styles.age}>
+        {contact.age} years old
+        </Text>
+        
+        
+        <View style={styles.options}>
+          <TouchableOpacity
+            onPress={handleEdit}
+          >
+            <Feather name="edit" size={24} color="#F7F6F2" />
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={handleDelete}
+          >
+            <MaterialIcons name="delete-outline" size={24} color="#F7F6F2" />
+          </TouchableOpacity>
+        </View>
       </View>
-    </TouchableOpacity>
+    </View>
   )
 }
 const styles = StyleSheet.create({
@@ -38,14 +76,18 @@ const styles = StyleSheet.create({
     width: Dimensions.get('screen').height/5,    
     alignItems: 'center',
     paddingTop: Dimensions.get('screen').height/20,
-    position: 'relative'
+    position: 'relative',
+    marginVertical: Dimensions.get('screen').height/100
   },
   innerContainer: {
     height: Dimensions.get('screen').height/5,
     backgroundColor: '#4B6587',
     width: '100%',
-    paddingTop: Dimensions.get('screen').height/20,
+    paddingTop: Dimensions.get('screen').height/18,
+    paddingBottom: Dimensions.get('screen').height/80,
+    paddingHorizontal: Dimensions.get('screen').height/80,
     borderRadius: 10,
+    justifyContent: 'space-between'
 
   },
   contactImage: {
@@ -66,6 +108,20 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     color: "#F7F6F2",
     textAlign: 'center'
+  },
+  age: {
+    fontSize: Dimensions.get('window').height/60,
+    marginLeft: Dimensions.get('window').height/150,
+    fontWeight: '300',
+    color: "#F7F6F2",
+    textAlign: 'center'
+  },
+  options: {
+    color: '#F7F6F2',
+    fontSize: Dimensions.get('screen').height/50,
+    flexDirection: 'row',
+    justifyContent: 'space-evenly',
+    marginTop: Dimensions.get('screen').height/80
   }
 
 })

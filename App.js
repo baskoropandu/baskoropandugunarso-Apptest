@@ -5,9 +5,7 @@ import { Provider } from 'react-redux';
 import Home from './src/pages/Home';
 import store from './src/store/store';
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
-import ContactDetails from './src/pages/ContactDetails';
-import CreateContact from './src/pages/CreateContact';
-
+import ContactForm from './src/components/ContactForm';
 const Stack = createNativeStackNavigator()
 
 export default function App() {
@@ -16,8 +14,8 @@ export default function App() {
       <Provider store={store}>
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
-          <Stack.Screen name="Details" component={ContactDetails} options={{headerShown: false}}/>
-          <Stack.Screen name="CreateContact" component={CreateContact} options={{headerShown: false}}/>
+          <Stack.Screen name="CreateContact" component={ContactForm} options={{headerShown: false}}/>
+          <Stack.Screen name="EditContact" component={ContactForm} options={{headerShown: false}}/>
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>

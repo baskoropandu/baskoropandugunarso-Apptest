@@ -22,7 +22,15 @@ export default function Home({navigation}) {
       <ScrollView 
         contentContainerStyle={styles.cardContainer}
       >
-        {contactCards}
+        <Image
+          style={{height:Dimensions.get('screen').height/5, width: Dimensions.get('screen').height/5}}
+          source={{
+            uri: 'https://ik.imagekit.io/ztg2jcaeb0e/ConTech_1__hsE_r14mVQg.png?updatedAt=1632894384091'
+          }}
+        />
+        <View style={styles.cards}>
+          {contactCards}
+        </View>
       </ScrollView>
       <TouchableOpacity 
         onPress={()=> navigation.navigate('CreateContact')}
@@ -32,7 +40,7 @@ export default function Home({navigation}) {
         <Feather 
           style={{fontSize: Dimensions.get('screen').height/16, color: '#4B6587', textAlign: 'center',
           textAlignVertical:'center',}}
-          name="user-plus"   
+          name="plus"   
         />
       </TouchableOpacity>
     </View>
@@ -46,21 +54,24 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     alignItems: 'center',
+    position: 'relative',
+    paddingBottom: 20
+  },
+  cards: {
+    width: Dimensions.get('screen').width,
     flexDirection: 'row',
     flexWrap: 'wrap',
     justifyContent: 'space-evenly',
-    position: 'relative'
   },
   addButton: {
-    height: Dimensions.get('screen').height/10,
-    width: Dimensions.get('screen').height/10,
-    paddingStart:Dimensions.get('screen').height/55,
+    height: Dimensions.get('screen').height/15,
+    width: Dimensions.get('screen').height/15,
     backgroundColor: '#C8C6C6',
     justifyContent:'center',
     borderRadius: Dimensions.get('screen').height/10,
     position: 'absolute',
-    bottom: 20,
-    right: 10,
+    bottom: 30,
+    right: 20,
     zIndex: 2
   }
 

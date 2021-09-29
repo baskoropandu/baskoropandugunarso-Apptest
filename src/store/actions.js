@@ -1,5 +1,4 @@
 import { SET_CONTACTS, SET_CONTACT, SET_CONTACTDETAILS } from "./actionTypes"
-
 const baseUrl = `https://simple-contact-crud.herokuapp.com`
 
 export function setContacts(params) {
@@ -18,8 +17,8 @@ export function setContact(params) {
   return action
 }
 
-export function fetchContacts(_) {
-  return async function (dispatch, getState) {
+export function fetchContacts(params) {
+  return function (dispatch, getState) {
     fetch(`${baseUrl}/contact`)
       .then(response => response.json())
       .then(({data}) => {
@@ -32,70 +31,54 @@ export function fetchContacts(_) {
 }
 
 export function createContact(data) {
-  return function (dispatch, getstate){
-    let formData = new FormData()
-    formData.append('firstName', data.firstName)
-    formData.append('lastName', data.lastName)
-    formData.append('age', data.age)
-    if(data.photo) {
-      formData.append('photo', data.photo)
-    }
-
-    fetch(`${baseUrl}/contact`, {
+  let formData = new FormData()
+  formData.append('firstName', data.firstName)
+  formData.append('lastName', data.lastName)
+  formData.append('age', data.age)
+  if(data.photo) {
+    formData.append('photo', data.photo)
+  }
+  return () => {
+    return fetch(`${baseUrl}/contact`, {
       method: 'POST',
-      headers: {
-        Accept: 'application/json',
-      },
       body: formData
     })
-      .then(response => response.json())
-      .then(response => {
-        console.log(response);
-      })
-      .catch(err => {
-        console.log(err)
-      })
   }
 }
 
 export function fetchContactDetails(id) {
-  return async function (dispatch, getState) {
-    fetch(`${baseUrl}/contact/${id}`)
-      .then(response => response.json())
-      .then(({data}) => {
-        dispatch(setContact(data))
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
+  return () => fetch(`${baseUrl}/contact/${id}`)
+  
 }
 
 export function deleteContact(id) {
-  return async function (dispatch, getState) {
-    fetch(`${baseUrl}/contact/${id}`, {method: "DELETE"})
-      .then(response => response.json())
-      .then((response) => {
-        console.log(response);
-        dispatch(fetchContacts())
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }
+  return () => fetch(`${baseUrl}/contact/${id}`, {method: "DELETE"})
+  // return async function (dispatch, getState) {
+  //   fetch(`${baseUrl}/contact/${id}`, {method: "DELETE"})
+  //     .then(response => response.json())
+  //     .then((response) => {
+  //       console.log(response);
+  //       dispatch(fetchContacts())
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     })
+  // }
 }
 
 export function updateContact(data, id) {
-  fetch(`${baseUrl}/contact/${id}`, {
-    method: 'put',
-    body: data
-  })
-    .then(response => response.json())
-    .then(response => {
-      console.log(response);
+  let formData = new FormData()
+  formData.append('firstName', data.firstName)
+  formData.append('lastName', data.lastName)
+  formData.append('age', data.age)
+  if(data.photo) {
+    formData.append('photo', data.photo)
+  }
+  return () => {
+    return fetch(`${baseUrl}/contact/${id}`, {
+      method: 'PUT',
+      body: formData
     })
-    .catch(err => {
-      console.log(err)
-    })
+  }
 }
 
