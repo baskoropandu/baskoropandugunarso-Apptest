@@ -1,11 +1,13 @@
+import { useNavigation } from '@react-navigation/native';
 import React from 'react';
 import { StyleSheet, TouchableOpacity, View, TextInput, Image, Text, Dimensions, ScrollView} from 'react-native';
-import { Feather } from '@expo/vector-icons';
 import isURL from '../helpers/checkURL';
-
 export default function ContactCard({contact}) {
+  const id = {id: contact.id}
+  const navigation = useNavigation()
   return(
-    <View
+    <TouchableOpacity
+      onPress={()=> navigation.navigate('Details', id)}
       style={styles.contactCard}
     >
       {isURL(contact.photo) ? (
@@ -16,10 +18,6 @@ export default function ContactCard({contact}) {
           }}
         />
       ): (
-        // <Feather 
-        //   style={styles.imagePlaceholder}
-        //   name="user" 
-        // />
         <Image
           style={styles.contactImage}
           source={{
@@ -27,43 +25,40 @@ export default function ContactCard({contact}) {
           }}
         />
       )}
-      <Text style={styles.name}>
-      {`${contact.firstName} ${contact.lastName}`}
-      </Text>
-    </View>
+      <View style={styles.innerContainer}>
+        <Text style={styles.name}>
+        {`${contact.firstName} ${contact.lastName}`}
+        </Text>
+      </View>
+    </TouchableOpacity>
   )
 }
 const styles = StyleSheet.create({
   contactCard: {
-    height: Dimensions.get('window').height/5,
-    width: Dimensions.get('window').height/5,
-    backgroundColor: '#4B6587',
-    marginVertical: 10,
-    borderRadius: 10,
-    padding: 10,
+    width: Dimensions.get('screen').height/5,    
     alignItems: 'center',
-    flexDirection: 'column',
-    shadowColor: '#000',
-    shadowOffset: { width: 1, height: 1 },
-    shadowOpacity: 8/10,
-    shadowRadius: 5,  
-    elevation: 5
+    paddingTop: Dimensions.get('screen').height/20,
+    position: 'relative'
+  },
+  innerContainer: {
+    height: Dimensions.get('screen').height/5,
+    backgroundColor: '#4B6587',
+    width: '100%',
+    paddingTop: Dimensions.get('screen').height/20,
+    borderRadius: 10,
+
   },
   contactImage: {
-    height: '70%',
-    width: '70%',
+    height: Dimensions.get('screen').height/10,
+    width: Dimensions.get('screen').height/10,
     resizeMode: 'cover',
-    borderRadius: 10
-  },
-  imagePlaceholder: {
-    height: '70%',
-    fontSize: Dimensions.get('window').height/10,
-    width: '70%',
-    textAlign: 'left',
-    textAlignVertical: 'center',
-    color: '#F7F6F2',
-    backgroundColor: '#C8C6C6',
-    borderRadius: 10
+    borderRadius: Dimensions.get('screen').height/10,
+    position:'absolute',
+    top: 0,
+    zIndex: 1,
+    backgroundColor: '#F7F6F2',
+    borderWidth: 2,
+    borderColor: '#F0E5CF'
   },
   name: {
     fontSize: Dimensions.get('window').height/40,

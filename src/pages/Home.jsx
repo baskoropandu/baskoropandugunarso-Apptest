@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, TouchableHighlight, View, TextInput, Image, Text, Dimensions, ScrollView} from 'react-native';
+import { StyleSheet, TouchableOpacity, View, TextInput, Image, Text, Dimensions, ScrollView} from 'react-native';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchContacts } from '../store/actions';
 import ContactCard from '../components/ContactCard';
@@ -14,32 +14,27 @@ export default function Home({navigation}) {
   const contactCards = contacts.map((contact, i) => {
     const id = {id: contact.id}
     return (
-      <TouchableHighlight 
-        underlayColor='white'
-        onPress={()=>navigation.navigate('Details', id)} 
-        key={i}
-      >
-        <ContactCard contact={contact}/>
-      </TouchableHighlight>
+      <ContactCard contact={contact} key={i}/>
     )
   }) 
   return (
     <View style={styles.container}>
-      <Text>Home</Text>
       <ScrollView 
         contentContainerStyle={styles.cardContainer}
       >
         {contactCards}
       </ScrollView>
-      <TouchableHighlight 
+      <TouchableOpacity 
         onPress={()=> navigation.navigate('CreateContact')}
         underlayColor='white'
+        style={styles.addButton}
       >
         <Feather 
-          name="user-plus" 
-          style={styles.addButton}  
+          style={{fontSize: Dimensions.get('screen').height/16, color: '#4B6587', textAlign: 'center',
+          textAlignVertical:'center',}}
+          name="user-plus"   
         />
-      </TouchableHighlight>
+      </TouchableOpacity>
     </View>
   )
 }
@@ -53,16 +48,20 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     flexDirection: 'row',
     flexWrap: 'wrap',
-    justifyContent: 'space-evenly'
-    
+    justifyContent: 'space-evenly',
+    position: 'relative'
   },
   addButton: {
-    fontSize: Dimensions.get('screen').height/8,
-    color: '#4B6587',
-    textAlign: 'right',
-    textShadowColor: '#F0E5CF',
-    textShadowOffset: {width:1, height:0},
-    textShadowRadius: 1,
+    height: Dimensions.get('screen').height/10,
+    width: Dimensions.get('screen').height/10,
+    paddingStart:Dimensions.get('screen').height/55,
+    backgroundColor: '#C8C6C6',
+    justifyContent:'center',
+    borderRadius: Dimensions.get('screen').height/10,
+    position: 'absolute',
+    bottom: 20,
+    right: 10,
+    zIndex: 2
   }
 
 })

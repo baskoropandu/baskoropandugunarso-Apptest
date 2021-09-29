@@ -32,17 +32,30 @@ export function fetchContacts(_) {
 }
 
 export function createContact(data) {
-  fetch(`${baseUrl}/contact`, {
-    method: 'POST',
-    body: data
-  })
-    .then(response => response.json())
-    .then(response => {
-      console.log(response);
+  return function (dispatch, getstate){
+    let formData = new FormData()
+    formData.append('firstName', data.firstName)
+    formData.append('lastName', data.lastName)
+    formData.append('age', data.age)
+    if(data.photo) {
+      formData.append('photo', data.photo)
+    }
+
+    fetch(`${baseUrl}/contact`, {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+      },
+      body: formData
     })
-    .catch(err => {
-      console.log(err)
-    })
+      .then(response => response.json())
+      .then(response => {
+        console.log(response);
+      })
+      .catch(err => {
+        console.log(err)
+      })
+  }
 }
 
 export function fetchContactDetails(id) {

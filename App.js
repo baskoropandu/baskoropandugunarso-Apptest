@@ -6,7 +6,7 @@ import Home from './src/pages/Home';
 import store from './src/store/store';
 import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import ContactDetails from './src/pages/ContactDetails';
-
+import CreateContact from './src/pages/CreateContact';
 
 const Stack = createNativeStackNavigator()
 
@@ -17,6 +17,7 @@ export default function App() {
         <Stack.Navigator initialRouteName="Home">
           <Stack.Screen name="Home" component={Home} options={{headerShown: false}}/>
           <Stack.Screen name="Details" component={ContactDetails} options={{headerShown: false}}/>
+          <Stack.Screen name="CreateContact" component={CreateContact} options={{headerShown: false}}/>
         </Stack.Navigator>
       </Provider>
     </NavigationContainer>
