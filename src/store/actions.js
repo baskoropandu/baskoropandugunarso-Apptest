@@ -1,6 +1,5 @@
 import { SET_CONTACTS } from "./actionTypes"
 const baseUrl = `https://simple-contact-crud.herokuapp.com`
-
 export function setContacts(params) {
   const action = {
     type: SET_CONTACTS,

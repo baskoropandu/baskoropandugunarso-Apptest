@@ -3,8 +3,8 @@ import { NavigationContainer } from '@react-navigation/native'
 import { Provider } from 'react-redux';
 import Home from './src/pages/Home';
 import store from './src/store/store';
-import {createNativeStackNavigator} from '@react-navigation/native-stack'
 import ContactForm from './src/components/ContactForm';
+import {createNativeStackNavigator} from '@react-navigation/native-stack'
 const Stack = createNativeStackNavigator()
 
 export default function App() {
